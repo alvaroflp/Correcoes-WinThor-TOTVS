@@ -16,6 +16,7 @@ select 'V' || '' || '46389383000566' || '' || '3' || '' ||
   from pcusuari
  where pcusuari.dttermino is null
    and pcusuari.dtexclusao is null
+   and pcusuari.codfilial = &codfilial
    and pcusuari.codusur in (select pcpedc.codusur
                               from pcpedc
                              where data between '&dtini' and '&dtfim'
