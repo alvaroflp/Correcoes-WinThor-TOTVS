@@ -1,6 +1,4 @@
-/*DEVERÁ SER INFORMADO O NÚMERO DA TRANSAÇÃO DA NFe PARA REPROCESSAR*/
-/*APÓS CONSOLIDAR A NOTA APAGAR (DELETE) OS DADOS REFERENTE A TRANSAÇÃO DAS TABELAS: pcnfsaidprefat, pcmovprefat, pcmovcompleprefat e pcprestprefat*/
-
+--############## Deverá ser informado o número da transação
 DECLARE
 
 BEGIN
@@ -110,3 +108,15 @@ END;
   END LOOP;
 
 END;
+
+--############## após consolidação das notas através do script, realizar o delete das tabelas:
+--############## pcnfsaidprefat, pcmovprefat, pcmovcompleprefat e pcprestprefat
+
+/*delete*/
+begin
+delete from pcnfsaidprefat t where t.numcar = &numcar;
+delete from pcmovcompleprefat t where t.numtransitem in (select numtransitem from pcmov where numcar in (&numcar));
+delete from pcmovprefat t where t.numtransitem in (select numtransitem from pcmov where numcar in (&numcar));
+delete from pcprestprefat t where t.numtransvenda in (select numtransvenda from pcmov where numcar in (&numcar));
+end;
+/*fim*/
